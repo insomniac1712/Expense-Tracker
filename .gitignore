@@ -1,0 +1,63 @@
+# Python
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info
+dist/
+build/
+.Python
+
+# Virtual Environment
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Django
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+/static/
+*.pot
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node.js / Tailwind
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Tailwind output
+mysite/myapp/static/myapp/output.css
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# pytest
+.pytest_cache/
+
+# Migrations (optional - uncomment if you want to ignore)
+# **/migrations/*.py
+# !**/migrations/__init__.py
