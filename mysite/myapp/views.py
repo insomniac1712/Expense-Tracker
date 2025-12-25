@@ -1,9 +1,10 @@
 from django.shortcuts import render,redirect, get_object_or_404
-from .forms import ExpenseForm, CategoryForm
-from .models import Expense, Category
+from .forms import ExpenseForm, CategoryForm, BudgetForm
+from .models import Expense, Category, Budget
 from django.db.models import Sum
 import datetime
 from django.contrib.auth.decorators import login_required
+from .services import get_budget_status
 
 # Create your views here.
 
@@ -24,7 +25,31 @@ def index(request):
     total_expenses = expenses.aggregate(total=Sum('amount'))
 
     today = datetime.date.today()
-
+    current_month = today.replace(day=1)
+    budget_alerts = []
+    budget_statuses = []
+    
+  
+    for category in Category.objects.filter(user=request.user):
+        status = get_budget_status(request.user, category, current_month)
+        if status and status['exceeded']:
+            budget_alerts.append({
+                'category': category.name,
+                'over_by': status['spent'] - status['budget']
+            })
+            
+        if status:
+            budget_statuses.append({
+                'category': category.name,
+                'budget': status['budget'],
+                'spent': status['spent'],
+                'remaining': status['remaining'],
+                'exceeded': status['exceeded'],
+                'percent': int((status['spent']/status['budget'])*100) if status['budget'] > 0 else 0
+                
+            })   
+            
+                
     yearly_sum = expenses.filter(
         date__gt=today - datetime.timedelta(days=365)
     ).aggregate(total=Sum('amount'))
@@ -62,6 +87,7 @@ def index(request):
         'weekly_sum': weekly_sum,
         'daily_sums': daily_sums,
         'categorical_sums': categorical_sums,
+        'budget_alerts': budget_alerts
     })
 
 
@@ -125,8 +151,27 @@ def category_delete(request, id):
         id=id,
         user=request.user
     )
-    
     if request.method == "POST":
         category.delete()
-
     return redirect("category_list")
+
+@login_required
+def budget_list(request):
+    budgets = Budget.objects.filter(user=request.user)
+    return render(request, "myapp/budget_list.html", {"budgets": budgets})
+
+@login_required
+def budget_create(request):
+    if request.method == "POST":
+        form = BudgetForm(request.POST)
+        if form.is_valid():
+            budget = form.save(commit = False)
+            budget.user = request.user
+            budget.save()
+            return redirect("budget_list")
+    else:
+        form = BudgetForm()     
+    
+    return render(request, "myapp/budget_form.html", {"form": form})    
+
+

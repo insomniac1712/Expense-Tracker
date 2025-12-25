@@ -73,12 +73,51 @@
         </span>
     </div>
     {% endfor %}
+
+
     <!--Dsiplay total-->
     <div class="px-72 py-5">
         <span class="font-bold text-green-500">
             Total: ${{ total_expenses.amount__sum|intcomma }}
         </span>
     </div>
+
+    {% if budget_statuses %}
+<div class="shadow-lg m-10 rounded-lg">
+    <h1 class="px-10 py-5 font-bold text-gray-600">
+        Monthly Budget Status 📊
+    </h1>
+
+    {% for b in budget_statuses %}
+    <div class="px-10 py-4 border-b">
+        <div class="flex justify-between">
+            <span class="font-bold">{{ b.category }}</span>
+            <span class="{% if b.exceeded %}text-red-500{% else %}text-green-500{% endif %}">
+                {{ b.percent }}%
+            </span>
+        </div>
+
+        <div class="w-full bg-gray-200 rounded-full h-3 mt-2">
+            <div
+                class="{% if b.exceeded %}bg-red-500{% else %}bg-green-500{% endif %} h-3 rounded-full"
+                style="width: {{ b.percent }}%">
+            </div>
+        </div>
+
+        <div class="text-sm text-gray-600 mt-2">
+            Spent: ${{ b.spent|intcomma }} /
+            Budget: ${{ b.budget|intcomma }}
+            {% if b.exceeded %}
+                <span class="text-red-500 font-bold ml-2">
+                    (Exceeded by ${{ b.spent|add:b.budget|intcomma }})
+                </span>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
     <!--Dsiplay total-->
 </div>
 

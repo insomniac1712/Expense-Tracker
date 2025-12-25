@@ -18,6 +18,18 @@
                 <span class="self-center text-xl font-semibold">Expense Tracker</span>
             </a>
         </div>
+        {% if user.is_authenticated %}
+        <div class="flex justify-end p-4">
+            <span class="mr-4 text-gray-600">
+                Logged in as <strong>{{ user.username }}</strong>
+            </span>
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="text-red-500 font-bold">Logout</button>
+            </form>
+        </div>
+        {% endif %}
+
     </nav>
     {% block body %}
       

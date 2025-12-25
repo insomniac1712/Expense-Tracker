@@ -1,5 +1,6 @@
+from django import forms
 from django.forms import ModelForm
-from .models import Expense, Category
+from .models import Expense, Category, Budget
 
 class ExpenseForm(ModelForm):
     class Meta: 
@@ -10,3 +11,8 @@ class CategoryForm(ModelForm):
     class Meta:
         model = Category
         fields = ('name',)
+        
+class BudgetForm(forms.ModelForm):
+    class Meta:
+        model = Budget
+        fields = ['category', 'amount', 'month']
