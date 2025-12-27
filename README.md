@@ -1,131 +1,128 @@
-Expense Tracker — Django
 
-A production-oriented, multi-user expense tracking system built with Django and PostgreSQL, demonstrating secure data ownership, analytics, and clean backend architecture.
+# 💰 Expense Tracker
 
-Why this project exists
+### *Django • PostgreSQL • Analytics*
 
-This project was built to practice real-world Django backend patterns, not just CRUD:
+> A backend-focused expense tracking application built with Django, demonstrating secure multi-user data handling, ORM-based analytics, and production-ready architecture.
 
-Secure multi-user data isolation
+---
 
-Aggregated analytics at scale
+## 🧭 Overview
 
-Business logic separation
+This project was built to practice **real-world Django backend patterns**, including:
 
-API + Template hybrid architecture
+* secure user-based data isolation
+* database-level aggregations and analytics
+* separation of business logic from views
+* API + template hybrid architecture
+* production-oriented configuration
 
-Production-ready database setup
+The goal was **correctness, clarity, and maintainability**, not frontend complexity.
 
-Core Features
-Authentication & Security
+---
 
-Login-required access (no public data)
+## ✨ Features
 
-Every record tied to an authenticated user
+### 🔐 Authentication & Authorization
 
-Owner-only access enforced at query & object level
+* Login-required access (no public data)
+* Each record is associated with an authenticated user
+* User-scoped querysets to prevent data leakage
+* Object-level ownership enforcement
 
-Expense Management
+---
 
-Full Expense CRUD
+### 💸 Expense Management
 
-User-specific Categories (CRUD)
+* Full Expense CRUD (Create, Read, Update, Delete)
+* User-specific Categories (CRUD)
+* Relational models with foreign keys
+* Django Forms with server-side validation
 
-PostgreSQL-backed relational models
+---
 
-Django Forms with validation
+### 📊 Analytics & Aggregations
 
-Analytics & Insights
+* Time-based expense summaries:
 
-Time-based summaries:
+  * Last **7 days**
+  * Last **30 days**
+  * Last **365 days**
+* Daily expense aggregation
+* Category-wise totals
+* Backend-calculated analytics using Django ORM
+* Structured data exposed for frontend consumption (JSON)
 
-Last 7 days
+---
 
-Last 30 days
+### 📉 Budget Tracking
 
-Last 365 days
+* Monthly budget limits per category
+* Real-time calculation of spending vs budget
+* Over-budget detection
+* Business logic implemented in a dedicated service layer
 
-Category-wise aggregations
+---
 
-Daily spending trends
+## 🧱 Architecture & Design Decisions
 
-Interactive charts (Chart.js)
+| Concern        | Implementation                              |
+| -------------- | ------------------------------------------- |
+| ORM Usage      | `annotate`, `aggregate`, filtered querysets |
+| Business Logic | Service layer (`services.py`)               |
+| Data Isolation | User-scoped queries + object checks         |
+| APIs           | Django REST Framework                       |
+| Configuration  | Environment variables (`.env`)              |
+| Database       | PostgreSQL (production-ready)               |
 
-Backend → frontend data flow using structured JSON (no DOM scraping)
+---
 
-Budget Tracking
+## 🛠️ Tech Stack
 
-Monthly budget limits per category
+| Layer             | Technology            |
+| ----------------- | --------------------- |
+| Backend Framework | Django 6.x            |
+| Language          | Python 3              |
+| Database          | PostgreSQL            |
+| API Layer         | Django REST Framework |
+| Authentication    | Django Auth           |
+| Configuration     | django-environ        |
+| Charts            | Chart.js              |
 
-Real-time progress calculation
+---
 
-Over-budget detection with visual indicators
+## 📁 Project Structure (Key Parts)
 
-Business logic isolated in a service layer
-
-Architecture Highlights
-
-Django ORM for all aggregations (annotate, aggregate)
-
-Service layer (services.py) for budget calculations
-
-Django REST Framework
-
-Expense API
-
-Analytics API
-
-Pagination & filtering
-
-PostgreSQL for production readiness
-
-Environment-based configuration using .env
-
-Clean separation between:
-
-Views
-
-Business logic
-
-Templates
-
-APIs
-
-Tech Stack
-
-Backend: Django 6.x
-
-Database: PostgreSQL
-
-API: Django REST Framework
-
-Auth: Django Auth
-
-Styling: Tailwind CSS
-
-Charts: Chart.js
-
-Config: django-environ
-
-Language: Python 3
-
-📁 Project Structure (Key Parts)
+```
 mysite/
 ├── myapp/
-│   ├── models.py        # Expense, Category, Budget
-│   ├── services.py      # Budget business logic
-│   ├── views.py         # Template views
-│   ├── api/             # DRF APIs
-│   ├── forms.py         # Styled Django forms
-│   └── templates/       # Dark-mode UI
+│   ├── models.py        # Expense, Category, Budget models
+│   ├── services.py      # Business logic (budget calculations)
+│   ├── views.py         # Template-based views
+│   ├── api/             # REST API endpoints
+│   ├── forms.py         # Django forms
+│   └── templates/       # Server-rendered templates
 
-🌐 API Endpoints (Authenticated)
-Endpoint	Description
-/api/expenses/	Expense CRUD
-/api/categories/	Category CRUD
-/api/analytics/	Aggregated insights
+---
 
-Local Setup (Quick)
+## 🌐 API Endpoints (Authenticated)
+
+| Endpoint              | Method       | Description               |
+| --------------------- | ------------ | ------------------------- |
+| `/api/expenses/`      | GET / POST   | List & create expenses    |
+| `/api/expenses/<id>/` | PUT / DELETE | Update / delete expense   |
+| `/api/categories/`    | GET / POST   | Category management       |
+| `/api/analytics/`     | GET          | Aggregated analytics data |
+
+* All endpoints require authentication
+* All queries are user-scoped
+* Pagination and filtering enabled
+
+---
+
+## 🚀 Local Setup (Quick)
+
+```bash
 git clone https://github.com/insomniac1712/Expense-Tracker.git
 cd Expense-Tracker
 
@@ -135,8 +132,30 @@ env\Scripts\activate
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
+```
 
-Status
+---
+
+## 🧠 What This Project Demonstrates (For Recruiters)
+
+* Strong Django fundamentals
+* Secure multi-user backend design
+* Practical ORM aggregation usage
+* Clean separation of concerns
+* API development with DRF
+* Production-aware configuration (PostgreSQL, env vars)
+
+---
+
+## 📌 Status
 
 Actively maintained.
 Built as part of a backend-focused portfolio.
+
+---
+
+## 📜 License
+
+MIT License
+
+---
