@@ -1,14 +1,18 @@
+# ==============================
 # Python
-*.py[cod]
+# ==============================
 __pycache__/
+*.py[cod]
 *.so
 *.egg
-*.egg-info
+*.egg-info/
 dist/
 build/
 .Python
 
-# Virtual Environment
+# ==============================
+# Virtual Environments
+# ==============================
 env/
 venv/
 .venv/
@@ -16,16 +20,42 @@ ENV/
 env.bak/
 venv.bak/
 
+# ==============================
 # Django
+# ==============================
 *.log
-db.sqlite3
-db.sqlite3-journal
 media/
 staticfiles/
-/static/
+db.sqlite3
+db.sqlite3-journal
 *.pot
 
-# IDE
+# Do NOT ignore migrations (important for reviewers)
+# **/migrations/*.py
+# !**/migrations/__init__.py
+
+# ==============================
+# Environment Variables
+# ==============================
+.env
+.env.*
+.env.local
+
+# ==============================
+# Node / Tailwind
+# ==============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Tailwind build output (generated)
+mysite/myapp/static/myapp/output.css
+
+# ==============================
+# IDE / OS
+# ==============================
 .vscode/
 .idea/
 *.swp
@@ -33,31 +63,12 @@ staticfiles/
 *~
 .DS_Store
 
-# Node.js / Tailwind
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-package-lock.json
-
-# Tailwind output
-mysite/myapp/static/myapp/output.css
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Coverage reports
+# ==============================
+# Testing / Coverage
+# ==============================
 htmlcov/
 .coverage
 .coverage.*
 coverage.xml
 *.cover
-
-# pytest
 .pytest_cache/
-
-# Migrations (optional - uncomment if you want to ignore)
-# **/migrations/*.py
-# !**/migrations/__init__.py

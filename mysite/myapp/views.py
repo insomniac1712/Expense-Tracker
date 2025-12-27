@@ -62,19 +62,18 @@ def index(request):
         date__gt=today - datetime.timedelta(days=7)
     ).aggregate(total=Sum('amount'))
 
-    daily_sums = (
-        expenses
-        .values('date')
-        .order_by('date')
-        .annotate(total=Sum('amount'))
-    )
+    daily_sums = list(
+        expenses.values("date")
+       .order_by("date")
+       .annotate(total=Sum("amount"))
+       )
 
-    categorical_sums = (
-        expenses
-        .values('category__name')
-        .order_by('category__name')
-        .annotate(total=Sum('amount'))
-    )
+    categorical_sums = list(
+        expenses.values("category__name")
+        .order_by("category__name")
+        .annotate(total=Sum("amount"))
+        )
+
 
     expense_form = ExpenseForm()
 

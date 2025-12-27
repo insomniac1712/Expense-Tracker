@@ -13,4 +13,5 @@ urlpatterns = [
     path('categories/delete/<int:id>/', views.category_delete, name='category_delete'),
     path("accounts/login/", auth_views.LoginView.as_view(template_name='myapp/login.html'), name="login"),
     path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("api/", include("myapp.api.urls")),
 ]

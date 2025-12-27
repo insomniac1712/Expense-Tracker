@@ -10,27 +10,37 @@
     <link rel="stylesheet" href="{% static 'myapp/styles.css' %}">
     <link rel="stylesheet" href="{% static 'myapp/style.css' %}">
 </head>
-<body>
-    <nav class="shadow-lg p-5">
-        <div class="container flex flex-wrap justify-between items-center mx-auto">
-            <a href="#" class="flex">
-                <img class="h-10 mr-3" src="{% static 'myapp/images/wallet.png' %}" alt="">
-                <span class="self-center text-xl font-semibold">Expense Tracker</span>
-            </a>
-        </div>
-        {% if user.is_authenticated %}
-        <div class="flex justify-end p-4">
-            <span class="mr-4 text-gray-600">
-                Logged in as <strong>{{ user.username }}</strong>
-            </span>
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit" class="text-red-500 font-bold">Logout</button>
-            </form>
-        </div>
-        {% endif %}
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+      <!-- NAVBAR -->
+    <header class="border-b border-slate-800 bg-slate-900">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
 
-    </nav>
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <img src="{% static 'myapp/images/wallet.png' %}" class="h-7 w-7" />
+                <span class="font-semibold tracking-tight">
+                    Expense Tracker
+                </span>
+            </div>
+
+            <!-- User -->
+            {% if user.is_authenticated %}
+            <div class="flex items-center gap-4 text-sm text-slate-400">
+                <span>{{ user.username }}</span>
+
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button
+                        type="submit"
+                        class="text-red-400 hover:text-red-300 transition"
+                    >
+                        Logout
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </header>
     {% block body %}
       
     {% endblock body %}

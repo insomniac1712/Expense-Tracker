@@ -6,7 +6,7 @@
 <div class="m-10 font-bold">Add Expense ➕</div>
 <form class="shadow-lg m-10 rounded-lg" method="post">
     {% csrf_token %}
-    <div class="form-container px-10 py-10 flex">
+    <div class="form-container px-10 py-10 flex justify-center">
         <div class="mx-10">
             <div class="mb-5">
                 <label>Expense Name</label>
@@ -56,7 +56,7 @@
     {% for expense in expenses %}
     <div class="expense-row flex-wrap px-20 py-5">
         <span class="font-bold">{{ expense.name }}</span>
-        <span class="font-bold">${{ expense.amount|intcomma }}</span>
+        <span class="font-bold">₹{{ expense.amount|intcomma }}</span>
         <span class="font-bold">{{ expense.category }}</span>
         <span class="font-bold">{{ expense.date }}</span>
         <span class="pl-28"><a href="{% url 'edit' expense.id %}">
@@ -78,7 +78,7 @@
     <!--Dsiplay total-->
     <div class="px-72 py-5">
         <span class="font-bold text-green-500">
-            Total: ${{ total_expenses.amount__sum|intcomma }}
+            Total: ${{ total_expenses.total|default:0|intcomma }}
         </span>
     </div>
 
@@ -109,7 +109,7 @@
             Budget: ${{ b.budget|intcomma }}
             {% if b.exceeded %}
                 <span class="text-red-500 font-bold ml-2">
-                    (Exceeded by ${{ b.spent|add:b.budget|intcomma }})
+                    (Exceeded by ₹{{ b.spent|add:b.budget|intcomma }})
                 </span>
             {% endif %}
         </div>
@@ -125,21 +125,21 @@
     <div class="w-1/3 shadow-lg ml-10 rounded-lg">
         <h1 class="ml-10 font-bold text-gray-500">LAST 365 DAYS</h1>
         <h1 class="ml-10 my-5 text-2xl text-green-500 font-bold">
-            ${{ yearly_sum.amount__sum|intcomma }}
+            ₹{{ yearly_sum.total|default:0|intcomma }}
         </h1>
     </div>
 
     <div class="w-1/3 shadow-lg ml-10 rounded-lg">
         <h1 class="ml-10 font-bold text-gray-500">LAST 30 DAYS</h1>
         <h1 class="ml-10 my-5 text-2xl text-green-500 font-bold">
-            ${{ monthly_sum.amount__sum|intcomma }}
+            ₹{{ monthly_sum.total|default:0|intcomma  }}
         </h1>
     </div>
 
     <div class="w-1/3 shadow-lg ml-10 rounded-lg">
         <h1 class="ml-10 font-bold text-gray-500">LAST 7 DAYS</h1>
         <h1 class="ml-10 my-5 text-2xl text-green-500 font-bold">
-            ${{ weekly_sum.amount__sum|intcomma }}
+            ₹{{  weekly_sum.total|default:0|intcomma }}
         </h1>
     </div>
 </div>
@@ -159,7 +159,7 @@
             </div>
             <div class="flex flex-wrap px-20 py-5">
                 <span class="text-green-500">
-                    ${{ daily_sum.sum }}
+                    ₹{{ daily_sum.total }}
                 </span>
             </div>
             {% endfor %}
@@ -175,12 +175,12 @@
             {% for categorical_sum in categorical_sums %}
             <div class="flex flex-wrap px-20 py-5">
                 <span>
-                    {{ categorical_sum.category }}
+                    {{ categorical_sum.category__name }}
                 </span>
             </div>
             <div class="flex flex-wrap px-20 py-5">
                 <span class="text-green-500">
-                    ${{ categorical_sum.sum}}
+                    ₹{{ categorical_sum.total}}
                 </span>
             </div>
             {% endfor %}
@@ -213,7 +213,7 @@
 
     for(i=0; i<catSumDiv.length; i++){
         if(i%2==1){
-            cat_sums.push(catSumDiv[i].innerText.replace('$',''))
+            cat_sums.push(catSumDiv[i].innerText.replace('₹',''))
         }else{
             cats.push(catSumDiv[i].innerText)
         }
@@ -264,7 +264,7 @@
 
     for(i=0; i<dailySumDiv.length; i++){
         if(i%2==1){
-            sums.push(dailySumDiv[i].innerText.replace('$',''))
+            sums.push(dailySumDiv[i].innerText.replace('₹',''))
         }else{
             dates.push(dailySumDiv[i].innerText)
         }
